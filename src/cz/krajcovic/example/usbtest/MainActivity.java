@@ -23,7 +23,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends ActionBarActivity {
@@ -68,6 +70,8 @@ public class MainActivity extends ActionBarActivity {
 		}
 	};
 
+	private View mTextViewUsbAccessories;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -81,20 +85,39 @@ public class MainActivity extends ActionBarActivity {
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
-
+		
+		Button showUsbDevice = (Button) findViewById(R.id.buttonShowUsbDevice);
+		showUsbDevice.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getApplicationContext(), UsbAccessoriesViewLoader.class);
+				startActivity(intent);
+			}
+		});
+		
 		UsbManager manager = (UsbManager) getSystemService(Context.USB_SERVICE);
 		UsbAccessory[] accessoryList = manager.getAccessoryList();
-		
-		PendingIntent mPermissionIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
+
+		PendingIntent mPermissionIntent = PendingIntent.getBroadcast(this, 0,
+				new Intent(ACTION_USB_PERMISSION), 0);
 		IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION);
 		registerReceiver(mUsbReceiver, filter);
-		
-		int index = 0;
-		manager.requestPermission(accessoryList[index], mPermissionIntent);
 
-//		Intent intent = new Intent();
-//		UsbAccessory accessory = (UsbAccessory) intent
-//				.getParcelableExtra(UsbManager.EXTRA_ACCESSORY);
+		if (accessoryList != null) {
+			
+			//int index = 0;
+			//manager.requestPermission(accessoryList[index], mPermissionIntent);
+			for (UsbAccessory usbAccessory : accessoryList) {
+				//mTextViewUsbAccessories.
+				
+				// TODO: zobrazit
+			}
+		}
+
+		// Intent intent = new Intent();
+		// UsbAccessory accessory = (UsbAccessory) intent
+		// .getParcelableExtra(UsbManager.EXTRA_ACCESSORY);
 
 	}
 

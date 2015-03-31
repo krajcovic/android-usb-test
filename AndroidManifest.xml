@@ -6,6 +6,8 @@
 
     <uses-feature android:name="android.hardware.usb.accessory" />
 
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <uses-sdk
         android:minSdkVersion="12"
         android:targetSdkVersion="21" />
@@ -22,13 +24,22 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED" />
 
                 <meta-data
                     android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
                     android:resource="@xml/accessory_filter" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="cz.krajcovic.example.usbtest.UsbAccessoriesViewLoader"
+            android:label="@string/app_name"
+            android:parentActivityName="cz.krajcovic.example.usbtest.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cz.krajcovic.example.usbtest.MainActivity" />
         </activity>
     </application>
 

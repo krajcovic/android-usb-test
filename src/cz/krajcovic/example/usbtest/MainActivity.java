@@ -44,32 +44,8 @@ public class MainActivity extends ActionBarActivity {
 	 */
 	ViewPager mViewPager;
 
-	private static final String ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
-
 	protected static final String TAG = MainActivity.class.getName();
-	private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {
-
-		public void onReceive(Context context, Intent intent) {
-			String action = intent.getAction();
-			if (ACTION_USB_PERMISSION.equals(action)) {
-				synchronized (this) {
-					UsbAccessory accessory = (UsbAccessory) intent
-							.getParcelableExtra(UsbManager.EXTRA_ACCESSORY);
-
-					if (intent.getBooleanExtra(
-							UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
-						if (accessory != null) {
-							// call method to set up accessory communication
-						}
-					} else {
-						Log.d(TAG, "permission denied for accessory "
-								+ accessory);
-					}
-				}
-			}
-		}
-	};
-
+	
 	private View mTextViewUsbAccessories;
 
 	@Override
@@ -96,29 +72,6 @@ public class MainActivity extends ActionBarActivity {
 			}
 		});
 		
-		UsbManager manager = (UsbManager) getSystemService(Context.USB_SERVICE);
-		UsbAccessory[] accessoryList = manager.getAccessoryList();
-
-		PendingIntent mPermissionIntent = PendingIntent.getBroadcast(this, 0,
-				new Intent(ACTION_USB_PERMISSION), 0);
-		IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION);
-		registerReceiver(mUsbReceiver, filter);
-
-		if (accessoryList != null) {
-			
-			//int index = 0;
-			//manager.requestPermission(accessoryList[index], mPermissionIntent);
-			for (UsbAccessory usbAccessory : accessoryList) {
-				//mTextViewUsbAccessories.
-				
-				// TODO: zobrazit
-			}
-		}
-
-		// Intent intent = new Intent();
-		// UsbAccessory accessory = (UsbAccessory) intent
-		// .getParcelableExtra(UsbManager.EXTRA_ACCESSORY);
-
 	}
 
 	@Override
